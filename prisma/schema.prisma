@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:@localhost:3306/fiscalcontas_nodejs"
+}
+
+model Client {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  email         String   @unique @db.VarChar(255)
+  cnpj          String   @unique @db.VarChar(18)
+  phone         String   @unique @db.VarChar(15)
+  price         String   @db.VarChar(13)
+  cep           String   @db.VarChar(9)
+  street        String   @db.VarChar(150)
+  numberHouse   String   @db.VarChar(11)
+  district      String   @db.VarChar(150)
+  city          String   @db.VarChar(150)
+  state         String   @db.VarChar(5)
+  customerSince DateTime @default(now())
+}
