@@ -23,5 +23,8 @@
       "@config/*": ["./src/config/*"],
       "@dao/*": ["./src/dao/*"]
     }                           
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
