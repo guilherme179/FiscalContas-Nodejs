@@ -39,7 +39,7 @@ const createClient = async (request, response) => {
       cnpj
     }
   });
-
+  
   return response.status(201);
 }
 
