@@ -50,6 +50,32 @@ const createClient = async (request, response) => {
 
   const {name, email, phone, price, cep, street, numberHouse, district, city, state, cnpj} = createClientBody.parse(request.body);
 
+  const count_email = await prisma.client.count({
+    where: {
+      email,
+    }
+  });
+
+  const count_cnpj = await prisma.client.count({
+      where: {
+        cnpj,
+      }
+  });
+
+  const count_phone = await prisma.client.count({
+      where: {
+        phone,
+      }
+  });
+
+  if (count_cnpj > 0){
+    return response.status(400).json({ message: "Error! This cnpj is already in use." });
+  } else if (count_email > 0){
+    return response.status(400).json({ message: "Error! This email is already in use." });
+  } else if (count_phone > 0){
+    return response.status(400).json({ message: "Error! This phone is already in use." });
+  }
+
   await prisma.client.create({
     data: {
       name,
