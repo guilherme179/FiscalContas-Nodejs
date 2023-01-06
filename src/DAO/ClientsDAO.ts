@@ -7,15 +7,30 @@ const getAllClients = async (_request, _response) => {
   return clients;
 };
 
-const getClientById = async (request, _response) => {
-  const id  = request.body.id;
-  const clients = await prisma.client.findUnique({
+const getClientById = async (request, response) => {
+  const getClientBody = z.object({
+    id: z.number(),
+  });
+
+  const { id } = getClientBody.parse(request.body);
+
+  const count_id = await prisma.client.count({
     where: {
-        id,
+      id,
     }
   });
 
-  return clients;
+  if(count_id > 0){
+    const clients = await prisma.client.findUnique({
+      where: {
+          id,
+      }
+    });
+    return response.status(201).json({ clients: clients });
+  }
+
+  return response.status(400).send('this id does not exist');
+
 };
 
 const createClient = async (request, response) => {
@@ -94,9 +109,37 @@ const updateClient = async (request, response) => {
   return response.status(201).send('success');
 }
 
+
+const deleteClient = async (request, response) => {
+  const deleteClientBody = z.object({
+    id: z.number(),
+  });
+
+  const { id } = deleteClientBody.parse(request.body);
+
+  const count_id = await  prisma.client.count({
+    where: {
+      id,
+    }
+  });
+
+  if(count_id > 0){
+    const clients = await prisma.client.delete({
+      where: {
+          id,
+      }
+    });
+  
+    return response.status(201).send('success');
+  }
+
+  return response.status(400).send('this id does not exist');
+};
+
 module.exports = {
   getAllClients,
   getClientById,
   createClient,
   updateClient,
+  deleteClient
 };

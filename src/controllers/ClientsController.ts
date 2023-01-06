@@ -7,8 +7,8 @@ const getClients = async (_request: Request, response: Response) => {
 }
 
 const getClientById = async (request: Request, response: Response) => {
-  const client = await clientsDAO.getClientById(request);
-  return  response.status(200).json({ client: client });
+  const client = await clientsDAO.getClientById(request, response);
+  return client;
 }
 
 const createClient = async (request , response: Response) => {
@@ -21,9 +21,15 @@ const updateClient = async (request , response: Response) => {
   return client;
 }
 
+const deleteClient = async (request , response: Response) => {
+  const client = await clientsDAO.deleteClient(request, response);
+  return client;
+}
+
 module.exports = {
   getClients,
   getClientById,
   createClient,
   updateClient,
+  deleteClient
 }

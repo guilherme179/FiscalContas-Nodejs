@@ -18,6 +18,7 @@ app.get('/', (request, response) => {
 app.get('/clients', ClientsController.getClients);
 app.post('/clients', ClientsMiddleware.validateDatas ,ClientsController.createClient);
 app.put('/clients', ClientsMiddleware.validateDatas ,ClientsController.updateClient);
+app.delete('/clients', ClientsMiddleware.validateDataId ,ClientsController.deleteClient);
 app.post('/clients/byId', ClientsMiddleware.validateDataId ,ClientsController.getClientById);
 
 app.listen(3333);
