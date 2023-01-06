@@ -10,15 +10,19 @@ app.use(bodyParser.urlencoded({
 
 const ClientsController = require('./controllers/ClientsController');
 const ClientsMiddleware = require('./middlewares/ClientsMiddleware');
+const LoginController = require('./controllers/LoginController');
+const LoginMiddleware = require('./middlewares/LoginMiddleware');
 
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   return response.json({ message: 'Hello Wolrd !!' });
 });
 
+app.post('/login', LoginMiddleware.validateLoginData, LoginController.login);
+
 app.get('/clients', ClientsController.getClients);
-app.post('/clients', ClientsMiddleware.validateDatas ,ClientsController.createClient);
-app.put('/clients', ClientsMiddleware.validateDatas ,ClientsController.updateClient);
-app.delete('/clients', ClientsMiddleware.validateDataId ,ClientsController.deleteClient);
-app.post('/clients/byId', ClientsMiddleware.validateDataId ,ClientsController.getClientById);
+app.post('/clients', ClientsMiddleware.validateDatas, ClientsController.createClient);
+app.put('/clients', ClientsMiddleware.validateDatas, ClientsController.updateClient);
+app.delete('/clients', ClientsMiddleware.validateDataId, ClientsController.deleteClient);
+app.post('/clients/byId', ClientsMiddleware.validateDataId, ClientsController.getClientById);
 
 app.listen(3333);

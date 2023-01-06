@@ -25,3 +25,11 @@ model Client {
   state         String   @db.VarChar(5)
   customerSince DateTime @default(now())
 }
+
+model User {
+  id       Int    @id @default(autoincrement())
+  login    String @unique @db.VarChar(30)
+  password String @unique @db.VarChar(30)
+  admin    Int    @db.TinyInt()
+  active   Int    @db.TinyInt()
+}
