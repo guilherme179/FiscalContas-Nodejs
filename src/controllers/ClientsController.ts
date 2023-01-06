@@ -11,13 +11,19 @@ const getClientById = async (request: Request, response: Response) => {
   return  response.status(200).json({ client: client });
 }
 
-const createClients = async (request , response: Response) => {
+const createClient = async (request , response: Response) => {
   const client = await clientsDAO.createClient(request, response);
+  return client;
+}
+
+const updateClient = async (request , response: Response) => {
+  const client = await clientsDAO.updateClient(request, response);
   return client;
 }
 
 module.exports = {
   getClients,
-  createClients,
-  getClientById
+  getClientById,
+  createClient,
+  updateClient,
 }
