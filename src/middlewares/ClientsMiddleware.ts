@@ -1,6 +1,6 @@
 import { prisma } from "../DAO/prisma";
 
-const validateData = async (request, response, next) => {
+const validateDatas = async (request, response, next) => {
   const { body } = request;
 
   if (body.name === undefined || body.email === undefined || body.phone === undefined || body.price === undefined || body.cep === undefined || body.street === undefined || body.numberHouse === undefined || body.district === undefined || body.city === undefined || body.state === undefined || body.cnpj === undefined) {
@@ -46,6 +46,21 @@ const validateData = async (request, response, next) => {
   next();
 }
 
+const validateDataId = async (request, response, next) => {
+  const { body } = request;
+
+  if (body.id === undefined) {
+    return response.status(400).json({ message: 'you must pass the id field!' });
+  }
+
+  if (body.id === '') {
+    return response.status(400).json({ message: 'need to fill in the id field!' });
+  }
+
+  next();
+}
+
 module.exports = {
-  validateData
+  validateDatas,
+  validateDataId
 };

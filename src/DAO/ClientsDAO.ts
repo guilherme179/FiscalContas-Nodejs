@@ -1,8 +1,19 @@
 import { prisma } from "./prisma";
 import { z } from 'zod';
 
-const getAllClients = async () => {
+const getAllClients = async (_request, _response) => {
   const clients = await prisma.client.findMany();
+
+  return clients;
+};
+
+const getClientById = async (request, _response) => {
+  const id  = request.body.id;
+  const clients = await prisma.client.findUnique({
+    where: {
+        id,
+    }
+  });
 
   return clients;
 };
@@ -40,10 +51,11 @@ const createClient = async (request, response) => {
     }
   });
   
-  return response.status(201);
+  return response.status(201).send('success');
 }
 
 module.exports = {
   getAllClients,
-  createClient
+  createClient,
+  getClientById
 };
