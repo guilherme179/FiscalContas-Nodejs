@@ -1,7 +1,7 @@
 import { prisma } from "../prisma";
 import { Request, Response } from "express";
 import { z } from "zod";
-import { jwt } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const login = async (request: Request, response: Response) => {
   const getClientBody = z.object({
@@ -15,24 +15,28 @@ const login = async (request: Request, response: Response) => {
     prisma.user.count({
       where: {
         login,
-        password
+        password,
+        active: 1
       }
     }),
     prisma.user.findFirst({
       where: {
         login,
-        password
+        password,
+        active: 1
       }
     })
   ]);
 
   if(data[0] > 0){
-    jwt.sign();
+    const expiredAt = Math.floor(Date.now() / 1000) + 86400;
 
-    return response.status(202).json({ token: jwt });
+    var token = jwt.sign({ user: data[1].login, id: data[1].id, admin: data[1].admin, exp: expiredAt }, 'a4639bcc6786cf0f399675b012892ead', { algorithm: 'HS256' });
+
+    return response.status(202).json({ token: token });
   }
 
-  return response.status(400).send('this login does not exist');
+  return response.status(401).send('this login does not exist');
 }
 
 module.exports = {
