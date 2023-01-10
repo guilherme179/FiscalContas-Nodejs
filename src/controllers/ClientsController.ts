@@ -92,40 +92,32 @@ const createClient = async (request , response: Response) => {
     }
   });
   
-  return response.status(201).send('success');
+  return response.status(201).json({'message' : 'success'});
 }
 
 const updateClient = async (request , response: Response) => {
   const updateClientBody = z.object({
     id: z.number(),
     name: z.string(),
-    email: z.string(),
     phone: z.string(),
     price: z.string(),
     cep: z.string(),
     street: z.string(),
     numberHouse: z.string(),
-    district: z.string(),
-    city: z.string(),
-    state: z.string(),
-    cnpj: z.string()
+    district: z.string()
   });
 
-  const {id, name, email, phone, price, cep, street, numberHouse, district, city, state, cnpj} = updateClientBody.parse(request.body);
+  const {id, name, phone, price, cep, street, numberHouse, district} = updateClientBody.parse(request.body);
 
   await prisma.client.update({
     data: {
       name,
-      email,
       phone, 
       price, 
       cep, 
       street, 
       numberHouse, 
       district, 
-      city, 
-      state, 
-      cnpj
     },
     where: {
       id

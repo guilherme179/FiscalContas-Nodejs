@@ -12,6 +12,20 @@ const validateDatas = async (request, response, next) => {
   next();
 }
 
+const validateDatasForUpdate = async (request, response, next) => {
+  const { body } = request;
+
+  if (body.name === undefined || body.phone === undefined || body.price === undefined || body.cep === undefined || body.street === undefined || body.numberHouse === undefined || body.district === undefined) {
+    return response.status(400).json({ message: 'you must pass all fields!' });
+  }
+
+  if (body.name === '' || body.phone === '' || body.price === '' || body.cep === '' || body.street === '' || body.numberHouse === '' || body.district === '') {
+    return response.status(400).json({ message: 'need to fill in all fields!' });
+  }
+  
+  next();
+}
+
 const validateDataId = async (request, response, next) => {
   const { body } = request;
 
@@ -28,5 +42,6 @@ const validateDataId = async (request, response, next) => {
 
 module.exports = {
   validateDatas,
-  validateDataId
+  validateDataId,
+  validateDatasForUpdate
 };
