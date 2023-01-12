@@ -8,11 +8,13 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-const ClientsController = require('./controllers/ClientsController');
 const cors = require('cors');
+const ClientsController = require('./controllers/ClientsController');
 const ClientsMiddleware = require('./middlewares/ClientsMiddleware');
 const LoginController = require('./controllers/LoginController');
 const LoginMiddleware = require('./middlewares/LoginMiddleware');
+const ProvidersMiddleware = require('./middlewares/ProvidersMiddleware');
+const ProvidersController = require('./controllers/ProvidersController');
 const JwtMiddleware = require('./middlewares/JwtMiddleware');
 
 app.use((_req, res, next) => {
@@ -33,5 +35,11 @@ app.post('/clients', ClientsMiddleware.validateDatas, ClientsController.createCl
 app.put('/clients', ClientsMiddleware.validateDatasForUpdate, ClientsController.updateClient);
 app.delete('/clients', ClientsMiddleware.validateDataId, ClientsController.deleteClient);
 app.post('/clients/byId', ClientsMiddleware.validateDataId, ClientsController.getClientById);
+
+app.get('/providers', ProvidersController.getProviders);
+app.post('/providers', ProvidersMiddleware.checkDatas, ProvidersController.createProvider);
+app.put('/providers', ProvidersMiddleware.checkDatasForUpdate, ProvidersController.updateProvider);
+app.delete('/providers', ProvidersMiddleware.checkDataId, ProvidersController.deleteProvider);
+app.post('/providers/byId', ProvidersMiddleware.checkDataId, ProvidersController.getProviderById);
 
 app.listen(3333);

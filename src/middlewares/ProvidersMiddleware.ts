@@ -1,0 +1,47 @@
+const checkDatas = async (request, response, next) => {
+  const { body } = request;
+
+  if (body.name === undefined || body.email === undefined || body.phone === undefined || body.cep === undefined || body.street === undefined || body.numberHouse === undefined || body.district === undefined || body.city === undefined || body.state === undefined || body.cnpj === undefined) {
+    return response.status(400).json({ message: 'you must pass all fields!' });
+  }
+
+  if (body.name === '' || body.email === '' || body.phone === '' || body.cep === '' || body.street === '' || body.numberHouse === '' || body.district === '' || body.city === '' || body.state === '' || body.cnpj === '') {
+    return response.status(400).json({ message: 'need to fill in all fields!' });
+  }
+  
+  next();
+}
+
+const checkDatasForUpdate = async (request, response, next) => {
+  const { body } = request;
+
+  if (body.name === undefined || body.phone === undefined || body.cep === undefined || body.street === undefined || body.numberHouse === undefined || body.district === undefined) {
+    return response.status(400).json({ message: 'you must pass all fields!' });
+  }
+
+  if (body.name === '' || body.phone === '' || body.cep === '' || body.street === '' || body.numberHouse === '' || body.district === '') {
+    return response.status(400).json({ message: 'need to fill in all fields!' });
+  }
+  
+  next();
+}
+
+const checkDataId = async (request, response, next) => {
+  const { body } = request;
+
+  if (body.id === undefined) {
+    return response.status(400).json({ message: 'you must pass the id field!' });
+  }
+
+  if (body.id === '') {
+    return response.status(400).json({ message: 'need to fill in the id field!' });
+  }
+
+  next();
+}
+
+module.exports = {
+  checkDatas,
+  checkDataId,
+  checkDatasForUpdate
+};
