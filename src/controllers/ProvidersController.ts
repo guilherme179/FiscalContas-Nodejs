@@ -15,14 +15,14 @@ const getProviderById = async (request: Request, response: Response) => {
 
   const { id } = getProviderBody.parse(request.body);
 
-  const count_id = await prisma.provider.count({
+  const count_id = await prisma.providers.count({
     where: {
       id,
     }
   });
 
   if(count_id > 0){
-    const providers = await prisma.provider.findUnique({
+    const providers = await prisma.providers.findUnique({
       where: {
           id,
       }
@@ -36,7 +36,7 @@ const getProviderById = async (request: Request, response: Response) => {
 const createProvider = async (request , response: Response) => {
   const createProviderBody = z.object({
     name: z.string(),
-    email: z.string(),
+    email: z.string(), 
     phone: z.string(),
     cep: z.string(),
     street: z.string(),
@@ -49,19 +49,19 @@ const createProvider = async (request , response: Response) => {
 
   const {name, email, phone, cep, street, numberHouse, district, city, state, cnpj} = createProviderBody.parse(request.body);
 
-  const count_email = await prisma.provider.count({
+  const count_email = await prisma.providers.count({
     where: {
       email,
     }
   });
 
-  const count_cnpj = await prisma.provider.count({
+  const count_cnpj = await prisma.providers.count({
       where: {
         cnpj,
       }
   });
 
-  const count_phone = await prisma.provider.count({
+  const count_phone = await prisma.providers.count({
       where: {
         phone,
       }
@@ -75,7 +75,7 @@ const createProvider = async (request , response: Response) => {
     return response.status(400).json({ message: "Error! This phone is already in use." });
   }
 
-  await prisma.provider.create({
+  await prisma.providers.create({
     data: {
       name,
       email,
@@ -106,7 +106,7 @@ const updateProvider = async (request , response: Response) => {
 
   const {id, name, phone, price, cep, street, numberHouse, district} = updateProviderBody.parse(request.body);
 
-  await prisma.provider.update({
+  await prisma.providers.update({
     data: {
       name,
       phone, 
@@ -131,14 +131,14 @@ const deleteProvider = async (request , response: Response) => {
 
   const { id } = deleteProviderBody.parse(request.body);
 
-  const count_id = await  prisma.provider.count({
+  const count_id = await  prisma.providers.count({
     where: {
       id,
     }
   });
 
   if(count_id > 0){
-    await prisma.provider.delete({
+    await prisma.providers.delete({
       where: {
           id,
       }
